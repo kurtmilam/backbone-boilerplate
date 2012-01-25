@@ -2,11 +2,13 @@
  * Grunt Task File
  * ---------------
  *
- * Task: JST 
+ * Task: JST
  * Description: Compile underscore templates to JST file
  * Dependencies: None
  *
  */
+
+var underscore = _;
 
 task.registerBasicTask("jst", "Compile underscore templates to JST file", function(data, name) {
   // If namespace is specified use that, otherwise fallback
@@ -29,15 +31,15 @@ task.registerHelper("jst", function(files, namespace, templateSettings) {
   // Pulled from underscore 1.2.4
   function underscoreTemplating(str) {
       // Merge in the templateSettings that may be passed
-      var c  = _.extend({}, _.templateSettings, templateSettings) ||
-        _.templateSettings;
+      var c  = underscore.extend({}, underscore.templateSettings, templateSettings) ||
+        underscore.templateSettings;
 
       var tmpl = 'var __p=[],print=function(){__p.push.apply(__p,arguments);};' +
         'with(obj||{}){__p.push(\'' +
         str.replace(/\\/g, '\\\\')
            .replace(/'/g, "\\'")
            .replace(c.escape || noMatch, function(match, code) {
-             return "',_.escape(" + code.replace(/\\'/g, "'") + "),'";
+             return "',underscore.escape(" + code.replace(/\\'/g, "'") + "),'";
            })
            .replace(c.interpolate || noMatch, function(match, code) {
              return "'," + code.replace(/\\'/g, "'") + ",'";
